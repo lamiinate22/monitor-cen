@@ -6,7 +6,7 @@ import os
 import re
 import sqlite3
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
@@ -29,8 +29,9 @@ SITES = [
 
 
 def setup_logging():
-    fmt = logging.Formatter("%(asctime)s %(levelname)s %(message)s", "%Y-%m-%d %H:%M:%S")
+    fmt = logging.Formatter("%(asctime)s %(levelname)s %(message)s", "%Y-%m-%d %H:%M:%S UTC")
     file_handler = RotatingFileHandler(LOG_PATH, maxBytes=1_000_000, backupCount=3, encoding="utf-8")
+    fmt.converter = time.gmtime  # znaczniki czasu w logach w UTC
     console = logging.StreamHandler()
     for h in (file_handler, console):
         h.setFormatter(fmt)
@@ -89,7 +90,7 @@ def check_site(db, site):
     # minimum sprawdzamy PRZED zapisem nowej ceny
     prev_min = db.execute("SELECT MIN(cena) FROM ceny WHERE sklep=?", (site["name"],)).fetchone()[0]
     db.execute("INSERT INTO ceny (sklep, cena, czas) VALUES (?,?,?)",
-               (site["name"], price, datetime.now().isoformat(timespec="seconds")))
+               (site["name"], price, datetime.now(timezone.utc).isoformat(timespec="seconds")))
     db.commit()
     log.info("%s: %.2f zł (dotychczasowe min: %s)", site["name"], price, prev_min)
     if prev_min is not None and price < prev_min:

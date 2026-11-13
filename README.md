@@ -61,7 +61,7 @@ Tabela `ceny`:
 | `id` | INTEGER, klucz główny | numer kolejny |
 | `sklep` | TEXT | nazwa źródła z `SITES` |
 | `cena` | REAL | cena w zł |
-| `czas` | TEXT | czas pomiaru, ISO 8601 |
+| `czas` | TEXT | czas pomiaru w UTC, ISO 8601 (np. `2026-11-13T14:25:31+00:00`) |
 
 Przykładowe zapytanie:
 
@@ -71,7 +71,7 @@ sqlite3 ceny.db "SELECT sklep, cena, czas FROM ceny ORDER BY id DESC LIMIT 20;"
 
 ## Logi i błędy
 
-Skrypt zapisuje komunikaty (pomiary, ostrzeżenia, błędy z pełnym stack trace) w `monitor.log` i wypisuje je w konsoli. Plik rotuje się po 1 MB i zachowuje 3 kopie (`monitor.log.1`–`.3`). Błąd pobierania ceny lub wysyłki na Telegram jest logowany, a pętla działa dalej.
+Skrypt zapisuje komunikaty (czas w UTC) (pomiary, ostrzeżenia, błędy z pełnym stack trace) w `monitor.log` i wypisuje je w konsoli. Plik rotuje się po 1 MB i zachowuje 3 kopie (`monitor.log.1`–`.3`). Błąd pobierania ceny lub wysyłki na Telegram jest logowany, a pętla działa dalej.
 
 ## Struktura projektu
 
