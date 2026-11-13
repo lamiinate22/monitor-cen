@@ -1,0 +1,5 @@
+.venv/
+.env
+ceny.db
+__pycache__/
+monitor.log*
