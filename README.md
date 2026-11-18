@@ -101,4 +101,3 @@ Skrypt zapisuje komunikaty (czas w UTC) (pomiary, ostrzeżenia, błędy z pełny
 ## Znane ograniczenia
 
 - Selektor CSS zależy od układu strony. Gdy Ceneo zmieni HTML, odczyt zacznie zgłaszać błąd i selektor trzeba zaktualizować.
-- Powiadomienia Telegram nie były jeszcze testowane na prawdziwym bocie.
